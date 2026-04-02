@@ -38,13 +38,13 @@ The pipeline uses three interconnected systems, each responsible for a different
 
 **SaaS Provisioning (Chained)** — Immediately after the account and mailbox are confirmed, the pipeline chains to a second runbook that provisions the user in the organization's recruiting platform with SSO enabled. If the mailbox isn't ready (timeout), provisioning defers to a weekly scheduled safety-net run.
 
-**Attribute Reconciliation (Scheduled)** — A data sync engine runs every 3 hours, ingesting employee data from the HRIS via API, running a SQL MERGE to detect new and changed records, and propagating full organizational attributes (employee ID, department, job title, manager, business unit, cost center) to Azure AD and Exchange custom attributes. This fills in everything the real-time provisioning couldn't set because that data only exists in the HRIS.
+**Attribute Reconciliation (Scheduled)** — A data sync engine runs every 3 hours, ingesting employee data from the HRIS via API, running a SQL MERGE to detect new and changed records, and propagating full organizational attributes (employee ID, department, job title, manager, business unit, cost center) to Azure AD and Exchange custom attributes. This fills in everything the real-time provisioning couldn't set because that data only exists in the HRIS. This system also detects new hires and rehires automatically — enqueuing them for account provisioning if the Jira-triggered path didn't catch them first — making it a true safety net for the entire pipeline.
 
 ### Key Architecture Decisions
 
 **Idempotent by design.** Every runbook can be safely re-run without creating duplicate accounts or corrupting data. If the account already exists, the script skips creation and updates attributes.
 
-**Safety nets, not single points of failure.** Jira provisioning handles speed (minutes). The data sync handles completeness (hours). Weekly scheduled runs catch stragglers. No single system failure blocks a new hire from getting access.
+**Safety nets, not single points of failure.** Jira provisioning handles speed (minutes). The data sync handles both completeness (attribute reconciliation) and redundancy (it independently detects and provisions new hires if the Jira path misses them). Weekly scheduled SaaS runs catch stragglers. No single system failure blocks a new hire from getting access.
 
 **Kill switches per runbook.** Any automation can be stopped independently via Azure Automation Variables without affecting the rest of the pipeline.
 
