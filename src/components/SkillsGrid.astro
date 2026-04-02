@@ -1,0 +1,126 @@
+---
+const skillCategories = [
+  {
+    title: 'Endpoint Management',
+    icon: '💻',
+    color: 'cyan',
+    skills: [
+      'Microsoft Intune',
+      'Jamf Pro',
+      'Autopilot',
+      'Autopatch',
+      'LAPS',
+      'DFCI',
+      'Config Profiles',
+      'Compliance Policies',
+      'App Deployment',
+      'Proactive Remediations',
+    ],
+  },
+  {
+    title: 'Identity & Access',
+    icon: '🔐',
+    color: 'amber',
+    skills: [
+      'Entra ID / Azure AD',
+      'Conditional Access',
+      'SSO / MFA',
+      'Certificate-based Auth',
+      'App Protection (MAM)',
+      'Entra ID Protection',
+      'Identity Lifecycle',
+      'RBAC',
+    ],
+  },
+  {
+    title: 'Endpoint Security',
+    icon: '🛡️',
+    color: 'emerald',
+    skills: [
+      'ASR Rules',
+      'BitLocker',
+      'Defender for Endpoint',
+      'Defender EDR',
+      'Defender AV',
+      'Windows Firewall',
+      'SmartScreen',
+      'Threat Defense',
+    ],
+  },
+  {
+    title: 'Automation & Scripting',
+    icon: '⚡',
+    color: 'cyan',
+    skills: [
+      'PowerShell',
+      'Microsoft Graph API',
+      'Azure Automation',
+      'Runbooks',
+      'SQL',
+      'Azure Blob Storage',
+      'WinGet',
+      'REST APIs',
+    ],
+  },
+  {
+    title: 'Service Management',
+    icon: '📋',
+    color: 'amber',
+    skills: [
+      'Jira / JSM',
+      'ServiceNow',
+      'Confluence',
+      'Virtual Service Agent',
+      'Dayforce (HRIS)',
+      'Remedy',
+      'Git',
+    ],
+  },
+  {
+    title: 'Platforms',
+    icon: '☁️',
+    color: 'emerald',
+    skills: [
+      'Windows 10/11',
+      'macOS',
+      'iOS / Android',
+      'Microsoft 365',
+      'Exchange Online',
+      'SharePoint',
+      'Google Workspace',
+      'Teams',
+      'W365 Cloud PC',
+    ],
+  },
+];
+---
+
+<section id="skills" class="py-20 sm:py-28 border-t border-base-800">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="fade-in">
+      <span class="terminal-label">// core competencies</span>
+      <h2 class="mt-2 text-2xl font-bold text-base-50 sm:text-3xl">Technical Scope</h2>
+      <p class="mt-3 max-w-2xl text-base-400">
+        The tools and platforms I work with daily to manage, secure, and automate a distributed endpoint environment.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {skillCategories.map((category, i) => (
+        <div class="fade-in card p-5" style={`animation-delay: ${i * 0.05}s`}>
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-xl">{category.icon}</span>
+            <h3 class="font-display text-sm font-semibold text-base-100">{category.title}</h3>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            {category.skills.map((skill) => (
+              <span class="inline-flex items-center rounded-md bg-base-700/60 px-2 py-1 font-mono text-[0.65rem] text-base-300 border border-base-600/50">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

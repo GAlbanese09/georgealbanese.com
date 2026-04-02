@@ -1,0 +1,65 @@
+---
+---
+
+<section id="about" class="py-20 sm:py-28">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="fade-in">
+      <span class="terminal-label">// about</span>
+      <h2 class="mt-2 text-2xl font-bold text-base-50 sm:text-3xl">Who I Am</h2>
+    </div>
+
+    <div class="fade-in mt-8 max-w-3xl space-y-5 text-base-300">
+      <p>
+        I'm an endpoint automation engineer with over a decade of progressive IT experience,
+        from museum helpdesk intern to owning the entire endpoint and identity platform for a
+        distributed organization. My career has spanned clinical healthcare IT, white-glove
+        executive support at Brookfield Properties, MSP operations, and now full-stack endpoint
+        engineering.
+      </p>
+      <p>
+        At my current organization — a mid-sized B2B SaaS company — I own modern device management
+        across <strong class="text-base-100">585 devices</strong> spanning Windows, macOS, iOS, and Android.
+        I designed the entire Conditional Access framework from scratch, built HR-driven identity
+        lifecycle automation, implemented the endpoint security stack (ASR, BitLocker, Defender EDR,
+        LAPS), and operate production automation pipelines that save measurable time on every hire and
+        termination.
+      </p>
+      <p>
+        What sets me apart isn't just the breadth — it's the depth of ownership.
+        I don't implement solutions designed by others. I architect them, build them,
+        operate them, and iterate on them. Every Conditional Access policy, every compliance
+        baseline, every automation runbook in my environment exists because I designed it.
+      </p>
+    </div>
+
+    <!-- Career timeline (abbreviated) -->
+    <div class="fade-in mt-12">
+      <span class="terminal-label">// career path</span>
+      <div class="mt-4 space-y-3">
+        {[
+          { year: '2022–Now', role: 'Endpoint Automation Engineer', org: 'B2B SaaS (Remote)', highlight: true },
+          { year: '2019–2022', role: 'Technical Support Specialist I', org: 'Brookfield Properties (NYC)', highlight: false },
+          { year: '2018–2019', role: 'System Analyst II', org: 'NYC Health + Hospitals (Bellevue)', highlight: false },
+          { year: '2017–2018', role: 'Analyst → Solutions Architect', org: 'ASI / Network Access Corp', highlight: false },
+          { year: '2014–2016', role: 'IT Support & Internships', org: 'Pittsburgh Tech / AMNH', highlight: false },
+        ].map((item) => (
+          <div class:list={[
+            'flex items-start gap-4 rounded-lg px-4 py-3',
+            item.highlight ? 'border border-cyan-500/20 bg-cyan-500/5' : 'border border-transparent',
+          ]}>
+            <span class="mt-0.5 shrink-0 font-mono text-xs text-base-500 w-24">{item.year}</span>
+            <div>
+              <span class:list={[
+                'font-display text-sm font-medium',
+                item.highlight ? 'text-cyan-400' : 'text-base-200',
+              ]}>
+                {item.role}
+              </span>
+              <span class="ml-2 text-sm text-base-500">— {item.org}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

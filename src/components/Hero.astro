@@ -1,0 +1,89 @@
+---
+---
+
+<section class="relative overflow-hidden pt-32 pb-20 sm:pt-40 sm:pb-28">
+  <!-- Background grid pattern -->
+  <div class="absolute inset-0 bg-grid opacity-30"></div>
+
+  <!-- Gradient glow behind hero -->
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] rounded-full bg-cyan-500/5 blur-[120px]"></div>
+
+  <div class="relative mx-auto max-w-6xl px-6">
+    <!-- Terminal-style status line -->
+    <div class="fade-in mb-8 inline-flex items-center gap-2 rounded-full border border-base-700 bg-base-900/80 px-4 py-1.5">
+      <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+      <span class="font-mono text-xs text-base-400">Available for opportunities</span>
+    </div>
+
+    <!-- Name & Title -->
+    <h1 class="fade-in text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+      <span class="text-base-50">George</span>
+      <span class="text-gradient"> Albanese</span>
+    </h1>
+
+    <p class="fade-in mt-4 font-display text-lg font-medium text-cyan-400 sm:text-xl" style="animation-delay: 0.1s;">
+      Endpoint Automation Engineer
+    </p>
+
+    <!-- Value proposition -->
+    <p class="fade-in mt-6 max-w-2xl text-base leading-relaxed text-base-300 sm:text-lg" style="animation-delay: 0.15s;">
+      I design and operate endpoint platforms, identity governance frameworks, and production automation
+      for distributed workforces. Currently managing <span class="font-semibold text-base-100">585+ devices</span>,
+      <span class="font-semibold text-base-100">20 Conditional Access policies</span>, and
+      <span class="font-semibold text-base-100">full identity lifecycle automation</span> across
+      Windows, macOS, iOS, and Android.
+    </p>
+
+    <!-- Core stack badges -->
+    <div class="fade-in mt-8 flex flex-wrap gap-2" style="animation-delay: 0.2s;">
+      {[
+        'Intune', 'Entra ID', 'Conditional Access', 'PowerShell',
+        'Graph API', 'Defender', 'Jamf Pro', 'Azure Automation'
+      ].map((tech) => (
+        <span class="badge">{tech}</span>
+      ))}
+    </div>
+
+    <!-- CTA buttons -->
+    <div class="fade-in mt-10 flex flex-wrap gap-4" style="animation-delay: 0.25s;">
+      <a
+        href="/projects"
+        class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-5 py-2.5 font-mono text-sm font-medium text-base-950 transition-all hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+      >
+        View My Work
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+        </svg>
+      </a>
+      <a
+        href="/resume"
+        class="inline-flex items-center gap-2 rounded-lg border border-base-600 px-5 py-2.5 font-mono text-sm font-medium text-base-200 transition-all hover:border-base-500 hover:bg-base-800"
+      >
+        Resume
+      </a>
+      <a
+        href="https://www.linkedin.com/in/george-albanese"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 rounded-lg border border-base-700 px-5 py-2.5 font-mono text-sm font-medium text-base-400 transition-all hover:border-cyan-700 hover:text-cyan-400"
+      >
+        LinkedIn ↗
+      </a>
+    </div>
+
+    <!-- Quick stats bar -->
+    <div class="fade-in mt-16 grid grid-cols-2 gap-4 sm:grid-cols-4" style="animation-delay: 0.3s;">
+      {[
+        { value: '10+', label: 'Years in IT' },
+        { value: '585+', label: 'Devices Managed' },
+        { value: '20', label: 'CA Policies Built' },
+        { value: '80', label: 'Config Profiles' },
+      ].map((stat) => (
+        <div class="rounded-lg border border-base-800 bg-base-900/50 px-4 py-3 text-center">
+          <div class="stat-value text-xl sm:text-2xl">{stat.value}</div>
+          <div class="mt-1 font-mono text-[0.65rem] tracking-wide text-base-500 uppercase">{stat.label}</div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resume" description="George Albanese's resume — Endpoint Automation Engineer with 10+ years of IT experience.">
+  <section class="pt-32 pb-20 sm:pt-40 sm:pb-28">
+    <div class="mx-auto max-w-4xl px-6">
+      <!-- Header -->
+      <div class="fade-in">
+        <span class="terminal-label">// resume</span>
+        <h1 class="mt-2 text-3xl font-bold text-base-50 sm:text-4xl">Resume</h1>
+        <p class="mt-3 text-base-400">
+          Endpoint Automation Engineer with 10+ years of progressive IT experience.
+        </p>
+      </div>
+
+      <!-- Download + LinkedIn row -->
+      <div class="fade-in mt-8 flex flex-wrap items-center gap-4">
+        <a
+          href="/George_Albanese_Resume.pdf"
+          download
+          class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-5 py-2.5 font-mono text-sm font-medium text-base-950 transition-all hover:bg-cyan-400 hover:shadow-lg hover:shadow-cyan-500/20"
+        >
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Download PDF
+        </a>
+        <a
+          href="https://www.linkedin.com/in/george-albanese"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 rounded-lg border border-base-600 px-5 py-2.5 font-mono text-sm font-medium text-base-200 transition-all hover:border-cyan-700 hover:text-cyan-400"
+        >
+          View on LinkedIn ↗
+        </a>
+      </div>
+
+      <!-- PDF Embed -->
+      <div class="fade-in mt-10 rounded-xl border border-base-700 bg-base-900 overflow-hidden">
+        <div class="bg-base-800 px-4 py-2 border-b border-base-700 flex items-center gap-2">
+          <span class="h-2.5 w-2.5 rounded-full bg-base-600"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-base-600"></span>
+          <span class="h-2.5 w-2.5 rounded-full bg-base-600"></span>
+          <span class="ml-3 font-mono text-xs text-base-500">George_Albanese_Resume.pdf</span>
+        </div>
+        <iframe
+          src="/George_Albanese_Resume.pdf"
+          class="w-full bg-white"
+          style="height: 80vh; min-height: 600px;"
+          title="George Albanese Resume"
+        >
+          <p class="p-8 text-center text-base-400">
+            Your browser doesn't support embedded PDFs.
+            <a href="/George_Albanese_Resume.pdf" download class="text-cyan-400 hover:underline">
+              Download the PDF instead.
+            </a>
+          </p>
+        </iframe>
+      </div>
+
+      <!-- Summary section below PDF -->
+      <div class="fade-in mt-12">
+        <h2 class="font-display text-lg font-semibold text-base-100">Quick Summary</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-3">
+          <div class="card p-4">
+            <div class="font-mono text-xs text-cyan-400 mb-1">Current Focus</div>
+            <div class="text-sm text-base-200">Endpoint platform ownership, identity governance, security stack, production automation</div>
+          </div>
+          <div class="card p-4">
+            <div class="font-mono text-xs text-cyan-400 mb-1">Core Stack</div>
+            <div class="text-sm text-base-200">Intune, Entra ID, Conditional Access, PowerShell, Graph API, Defender, Azure Automation</div>
+          </div>
+          <div class="card p-4">
+            <div class="font-mono text-xs text-cyan-400 mb-1">Experience</div>
+            <div class="text-sm text-base-200">10+ years across healthcare, real estate, SaaS — helpdesk to platform engineering</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,79 @@
+---
+const metrics = [
+  {
+    value: '585+',
+    label: 'Devices Managed',
+    detail: 'Intune (Windows/iOS/Android) + Jamf (macOS)',
+    icon: '📱',
+  },
+  {
+    value: '80',
+    label: 'Configuration Profiles',
+    detail: 'Security baselines, compliance, app config',
+    icon: '⚙️',
+  },
+  {
+    value: '20',
+    label: 'Conditional Access Policies',
+    detail: 'Designed & built entire framework from scratch',
+    icon: '🔐',
+  },
+  {
+    value: '117',
+    label: 'Apps Deployed',
+    detail: 'Managed via Intune app catalog',
+    icon: '📦',
+  },
+  {
+    value: '7',
+    label: 'Compliance Policies',
+    detail: 'Per-enrollment-type differentiation',
+    icon: '✅',
+  },
+  {
+    value: '~15 min',
+    label: 'Saved per Onboard',
+    detail: 'HR-driven automation pipeline',
+    icon: '⚡',
+  },
+  {
+    value: '~10 min',
+    label: 'Saved per Offboard',
+    detail: 'Jira-triggered termination workflow',
+    icon: '🔄',
+  },
+  {
+    value: '6',
+    label: 'Platforms Covered',
+    detail: 'Windows, macOS, iOS, Android, W365, BYOD',
+    icon: '🌐',
+  },
+];
+---
+
+<section id="metrics" class="py-20 sm:py-28 border-t border-base-800 bg-base-900/40">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="fade-in">
+      <span class="terminal-label">// by the numbers</span>
+      <h2 class="mt-2 text-2xl font-bold text-base-50 sm:text-3xl">Impact at Scale</h2>
+      <p class="mt-3 max-w-2xl text-base-400">
+        Real numbers from a production environment I built and operate.
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-4 grid-cols-2 lg:grid-cols-4">
+      {metrics.map((metric, i) => (
+        <div class="fade-in card p-5 text-center" style={`animation-delay: ${i * 0.04}s`}>
+          <div class="text-2xl mb-2">{metric.icon}</div>
+          <div class="stat-value text-2xl sm:text-3xl">{metric.value}</div>
+          <div class="mt-2 font-display text-xs font-semibold text-base-200 uppercase tracking-wide">
+            {metric.label}
+          </div>
+          <div class="mt-1 font-mono text-[0.6rem] text-base-500 leading-tight">
+            {metric.detail}
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

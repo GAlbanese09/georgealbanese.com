@@ -1,0 +1,83 @@
+---
+const earned = [
+  {
+    name: 'CompTIA Security+',
+    issuer: 'CompTIA',
+    icon: '🔒',
+  },
+  {
+    name: 'CompTIA Network+',
+    issuer: 'CompTIA',
+    icon: '🌐',
+  },
+];
+
+const inProgress = [
+  {
+    name: 'MD-102',
+    fullName: 'Endpoint Administrator',
+    issuer: 'Microsoft',
+    icon: '💻',
+  },
+  {
+    name: 'SC-300',
+    fullName: 'Identity & Access Administrator',
+    issuer: 'Microsoft',
+    icon: '🔐',
+  },
+  {
+    name: 'AZ-104',
+    fullName: 'Azure Administrator',
+    issuer: 'Microsoft',
+    icon: '☁️',
+  },
+];
+---
+
+<section id="certifications" class="py-20 sm:py-28 border-t border-base-800">
+  <div class="mx-auto max-w-6xl px-6">
+    <div class="fade-in">
+      <span class="terminal-label">// credentials</span>
+      <h2 class="mt-2 text-2xl font-bold text-base-50 sm:text-3xl">Certifications</h2>
+    </div>
+
+    <!-- Earned -->
+    <div class="fade-in mt-8">
+      <h3 class="font-display text-sm font-semibold text-emerald-400 uppercase tracking-wide flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-emerald-500"></span>
+        Earned
+      </h3>
+      <div class="mt-4 flex flex-wrap gap-3">
+        {earned.map((cert) => (
+          <div class="card flex items-center gap-3 px-4 py-3">
+            <span class="text-lg">{cert.icon}</span>
+            <div>
+              <div class="font-display text-sm font-medium text-base-100">{cert.name}</div>
+              <div class="font-mono text-[0.6rem] text-base-500">{cert.issuer}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- In Progress -->
+    <div class="fade-in mt-8">
+      <h3 class="font-display text-sm font-semibold text-amber-400 uppercase tracking-wide flex items-center gap-2">
+        <span class="h-2 w-2 rounded-full bg-amber-500 animate-pulse"></span>
+        In Progress
+      </h3>
+      <div class="mt-4 flex flex-wrap gap-3">
+        {inProgress.map((cert) => (
+          <div class="card flex items-center gap-3 px-4 py-3 border-dashed">
+            <span class="text-lg">{cert.icon}</span>
+            <div>
+              <div class="font-display text-sm font-medium text-base-200">{cert.name}</div>
+              <div class="font-mono text-[0.6rem] text-base-400">{cert.fullName}</div>
+              <div class="font-mono text-[0.55rem] text-base-500">{cert.issuer}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

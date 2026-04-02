@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://georgealbanese.com/sitemap-index.xml
