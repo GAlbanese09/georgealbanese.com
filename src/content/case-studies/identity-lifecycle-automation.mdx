@@ -1,0 +1,97 @@
+---
+title: "Identity Lifecycle Automation"
+description: "Designed and built a fully automated onboarding pipeline — from Jira ticket to provisioned account in minutes — replacing a 30-minute manual process with zero-touch automation across Azure AD, Exchange, and third-party SaaS."
+tags: ["PowerShell", "Graph API", "Azure Automation", "Entra ID", "Exchange Online", "Jira", "Power Automate", "SQL"]
+metrics:
+  - label: "Onboard Time"
+    value: "~3 min"
+  - label: "Previous Time"
+    value: "30+ min"
+  - label: "Human Steps"
+    value: "0"
+  - label: "Incidents Resolved"
+    value: "7"
+category: "automation"
+order: 1
+featured: true
+icon: "⚡"
+draft: false
+---
+
+## The Problem
+
+New hire account provisioning was entirely manual. When HR submitted a Jira onboarding ticket, an IT team member would read the ticket, manually create an Azure AD account in the Entra portal, assign an M365 license, type up a welcome email with temporary credentials, and send it from their personal mailbox. The process took 15–30 minutes per hire, was error-prone, and depended on someone being available to do it.
+
+An early-stage data sync tool existed that could ingest employee records from the HRIS into a SQL database and push attributes to Azure AD and Exchange — but it couldn't provision new accounts. It was a reconciliation engine, not an onboarding pipeline.
+
+## What I Built
+
+I designed and built a three-system automated onboarding pipeline over Q1 2026 that handles the full employee lifecycle from Jira ticket to fully provisioned identity — with zero human intervention for standard onboardings.
+
+### System Architecture
+
+The pipeline uses three interconnected systems, each responsible for a different stage:
+
+**Real-Time Provisioning (Jira-Triggered)** — When HR creates a "New Hire" ticket in Jira, an automation rule fires a webhook to Power Automate, which triggers an Azure Automation runbook. The runbook fetches the ticket, derives the corporate email from the preferred name field, creates the Azure AD account, assigns the M365 E5 license, sets the manager, waits for Exchange mailbox provisioning (polling Graph every 30 seconds with a 10-minute timeout), and sends an encrypted welcome email to the new hire's personal email — all within minutes.
+
+**SaaS Provisioning (Chained)** — Immediately after the account and mailbox are confirmed, the pipeline chains to a second runbook that provisions the user in the organization's recruiting platform with SSO enabled. If the mailbox isn't ready (timeout), provisioning defers to a weekly scheduled safety-net run.
+
+**Attribute Reconciliation (Scheduled)** — A data sync engine runs every 3 hours, ingesting employee data from the HRIS via API, running a SQL MERGE to detect new and changed records, and propagating full organizational attributes (employee ID, department, job title, manager, business unit, cost center) to Azure AD and Exchange custom attributes. This fills in everything the real-time provisioning couldn't set because that data only exists in the HRIS.
+
+### Key Architecture Decisions
+
+**Idempotent by design.** Every runbook can be safely re-run without creating duplicate accounts or corrupting data. If the account already exists, the script skips creation and updates attributes.
+
+**Safety nets, not single points of failure.** Jira provisioning handles speed (minutes). The data sync handles completeness (hours). Weekly scheduled runs catch stragglers. No single system failure blocks a new hire from getting access.
+
+**Kill switches per runbook.** Any automation can be stopped independently via Azure Automation Variables without affecting the rest of the pipeline.
+
+**Certificate-based Graph API auth.** No client secrets — the automation account authenticates to Microsoft Graph using certificate-based authentication on a dedicated app registration.
+
+**Email domain filtering.** After a production incident where a personal email address was ingested from the HRIS, I implemented a configurable domain allowlist that validates email addresses across all three derivation tiers before they enter the census database.
+
+### Welcome Email Evolution
+
+Credential delivery went through three iterations:
+
+1. **Third-party email service** — hit a 403 in production because the corporate domain wasn't verified. Required DNS changes controlled by another team.
+2. **Microsoft Graph sendMail** — eliminated the vendor dependency entirely. Uses the existing Mail.Send permission and sends from a shared mailbox.
+3. **Branded template with encryption** — evolved into a full branded experience with numbered setup steps, a credential card with monospace formatting, region-aware support contacts, and Office Message Encryption via Exchange mail flow rules.
+
+### MFA Exclusion Automation
+
+European new hires require temporary MFA exclusion because HR ships pre-configured laptops before the start date. The pipeline auto-detects European countries from the Jira ticket and adds the user to the exclusion group, with a warning comment on the ticket. A separate cleanup monitor runs every 2 hours with two alert layers — one checking if the Jira ticket is resolved, another flagging accounts older than 14 days — both posting alerts to the operations Teams channel.
+
+## Production Incidents & Lessons Learned
+
+I documented 7 production incidents during the rollout, each with root cause analysis and deployed fixes:
+
+- **Data quality gap** — personal email ingested when HRIS contact was added before the business email → deployed domain allowlist filtering
+- **Display name duplication** — name derivation logic assumed field format instead of checking content → updated to use preferred name as-is
+- **Email service 403** — third-party vendor required domain verification we couldn't control → migrated to Graph sendMail
+- **Parameter mapping failure** — Power Automate wasn't passing the ticket key correctly → fixed expression mapping
+- **PowerShell stream pollution** — Write-Output inside functions contaminated return values → switched to Write-Information
+- **Credential rendering** — special characters in generated passwords broke HTML templates → HTML encoding + character set restrictions
+- **Module version mismatch** — Graph SDK module wasn't in the runtime environment → added module with version alignment
+
+Each incident led to a permanent architectural improvement, not just a hotfix.
+
+## Results
+
+| Before | After |
+|--------|-------|
+| 15–30 min manual process per hire | ~3 minutes, fully automated |
+| IT staff availability required | Zero human intervention |
+| Plain text credentials via personal email | Encrypted, branded email from shared mailbox |
+| No SaaS provisioning | Automated with safety-net scheduling |
+| MFA exclusion manually managed (often forgotten) | Auto-applied with two-layer cleanup monitoring |
+| No attribute consistency | Full reconciliation every 3 hours from HRIS |
+| No audit trail | Jira comments, Teams alerts, structured JSON logs |
+
+## Technical Stack
+
+PowerShell 7.4, Microsoft Graph API, Azure Automation Runbooks, Azure SQL, Power Automate, Jira REST API, Exchange Online, Entra ID, Office Message Encryption
+
+## Documentation
+
+This platform is backed by 19 internal knowledge base articles covering architecture, runbook references, troubleshooting guides, emergency procedures, and the complete evolution story — all written by me.
