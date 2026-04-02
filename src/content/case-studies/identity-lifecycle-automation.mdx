@@ -44,7 +44,7 @@ The pipeline uses three interconnected systems, each responsible for a different
 
 **Idempotent by design.** Every runbook can be safely re-run without creating duplicate accounts or corrupting data. If the account already exists, the script skips creation and updates attributes.
 
-**Safety nets, not single points of failure.** Jira provisioning handles speed (minutes). The data sync handles both completeness (attribute reconciliation) and redundancy (it independently detects and provisions new hires if the Jira path misses them). Weekly scheduled SaaS runs catch stragglers. No single system failure blocks a new hire from getting access.
+**Safety nets, not single points of failure.** Jira provisioning handles speed (minutes). The data sync runs every 3 hours — handling both attribute reconciliation and independent new hire detection if the Jira path misses them. Weekly scheduled SaaS runs catch any remaining stragglers. No single system failure blocks a new hire from getting access.
 
 **Kill switches per runbook.** Any automation can be stopped independently via Azure Automation Variables without affecting the rest of the pipeline.
 
