@@ -11,6 +11,8 @@ metrics:
     value: "0"
   - label: "Incidents Resolved"
     value: "7"
+  - label: "KB Articles"
+    value: "19"
 category: "automation"
 order: 1
 featured: true
@@ -20,13 +22,13 @@ draft: false
 
 ## The Problem
 
-New hire account provisioning was entirely manual. When HR submitted a Jira onboarding ticket, an IT team member would read the ticket, manually create an Azure AD account in the Entra portal, assign an M365 license, type up a welcome email with temporary credentials, and send it from their personal mailbox. The process took 15–30 minutes per hire, was error-prone, and depended on someone being available to do it.
+When HR submitted a Jira onboarding ticket, an IT team member would manually create an Azure AD account in the Entra portal, assign an M365 license, type up a welcome email with temporary credentials, and send it from their personal mailbox — a 15–30 minute process that was error-prone and entirely dependent on someone being available to do it.
 
-An early-stage data sync tool existed that could ingest employee records from the HRIS into a SQL database and push attributes to Azure AD and Exchange — but it couldn't provision new accounts. It was a reconciliation engine, not an onboarding pipeline.
+No automation existed for any part of this process. There was no database tracking employee records, no API integration with the HRIS, and no automated attribute sync to Azure AD or Exchange. Everything — from account creation to attribute population — was done manually or not done at all.
 
 ## What I Built
 
-I designed and built a three-system automated onboarding pipeline over Q1 2026 that handles the full employee lifecycle from Jira ticket to fully provisioned identity — with zero human intervention for standard onboardings.
+I designed and built a three-system pipeline that provisions accounts across Azure AD, Exchange, and two SaaS platforms — triggered by a single Jira ticket, with zero human intervention. Built over Q1 2026, it handles the full employee lifecycle from ticket creation to fully provisioned identity.
 
 ### System Architecture
 
@@ -50,6 +52,8 @@ The pipeline uses three interconnected systems, each responsible for a different
 
 **Email domain filtering.** After a production incident where a personal email address was ingested from the HRIS, I implemented a configurable domain allowlist that validates email addresses across all three derivation tiers before they enter the census database.
 
+**Region-aware security automation.** European new hires require temporary MFA exclusion because HR ships pre-configured laptops before the start date. The pipeline auto-detects European countries from the Jira ticket and adds the user to the exclusion group, with a warning comment on the ticket. A separate cleanup monitor runs every 2 hours with two alert layers — one checking if the Jira ticket is resolved, another flagging accounts older than 14 days — both posting alerts to the operations Teams channel.
+
 ### Welcome Email Evolution
 
 Credential delivery went through three iterations:
@@ -57,10 +61,6 @@ Credential delivery went through three iterations:
 1. **Third-party email service** — hit a 403 in production because the corporate domain wasn't verified. Required DNS changes controlled by another team.
 2. **Microsoft Graph sendMail** — eliminated the vendor dependency entirely. Uses the existing Mail.Send permission and sends from a shared mailbox.
 3. **Branded template with encryption** — evolved into a full branded experience with numbered setup steps, a credential card with monospace formatting, region-aware support contacts, and Office Message Encryption via Exchange mail flow rules.
-
-### MFA Exclusion Automation
-
-European new hires require temporary MFA exclusion because HR ships pre-configured laptops before the start date. The pipeline auto-detects European countries from the Jira ticket and adds the user to the exclusion group, with a warning comment on the ticket. A separate cleanup monitor runs every 2 hours with two alert layers — one checking if the Jira ticket is resolved, another flagging accounts older than 14 days — both posting alerts to the operations Teams channel.
 
 ## Production Incidents & Lessons Learned
 
@@ -87,10 +87,14 @@ Each incident led to a permanent architectural improvement, not just a hotfix.
 | MFA exclusion manually managed (often forgotten) | Auto-applied with two-layer cleanup monitoring |
 | No attribute consistency | Full reconciliation every 3 hours from HRIS |
 | No audit trail | Jira comments, Teams alerts, structured JSON logs |
+| No documentation | 19 KB articles covering architecture, troubleshooting, emergency procedures, and evolution story |
 
 ## Technical Stack
 
-PowerShell 7.4, Microsoft Graph API, Azure Automation Runbooks, Azure SQL, Power Automate, Jira REST API, Exchange Online, Entra ID, Office Message Encryption
+**Identity:** Entra ID, Microsoft Graph API
+**Automation:** Azure Automation Runbooks, Power Automate, PowerShell 7.4
+**Data:** Azure SQL, Jira REST API
+**Messaging:** Exchange Online, Office Message Encryption
 
 ## Documentation
 
